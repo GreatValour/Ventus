@@ -460,55 +460,34 @@
                                             <section class="description100">
                                                 <form class="employment-form" id="myForm">
                                                     <fieldset>
-                                                        <legend>Contact Information</legend>
-                                                
-                                                        <label for="first_name">First Name:</label>
-                                                        <input type="text" id="first_name" name="first_name" required>
-                                                
+                                                        <legend>Information</legend>
+                                                        <label for="firstName">First Name:</label>
+                                                        <input type="text" id="firstName" name="firstName" required>
                                                         <label for="lastName">Last Name:</label>
                                                         <input type="text" id="lastName" name="lastName" required>
-                                                
-                                                        <label for="email">Email:</label>
-                                                        <input type="email" id="email" name="email" required>
-                                                
-                                                        <label for="phoneNumber">Phone Number:</label>
-                                                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(XXX) XXX-XXXX" required>
-                                                
-                                                        <label for="SSN">SSN:</label>
-                                                        <input type="text" id="SSN" name="SSN" placeholder="XXX-XX-XXXX" maxlength="11" required>
                                                     </fieldset>
-                                                
+
+
+
                                                     <fieldset>
-                                                        <legend>Address Information</legend>
-                                                
-                                                        <label for="address">Address:</label>
-                                                        <input type="text" id="address" name="address" required>
-                                                
-                                                        <label for="city">City:</label>
-                                                        <input type="text" id="city" name="city" required>
-                                                
-                                                        <label for="state">State:</label>
-                                                        <input type="text" id="state" name="state" required>
-                                                
-                                                        <label for="zipCode">Zip Code:</label>
-                                                        <input type="number" id="zipCode" name="zipCode" pattern="\d{5}" placeholder="12345" maxlength="5" required>
+                                                        <legend>Upload Forms</legend>
+                                                        <p>Upload 2022 W2 Form and Utility Bill:</p>
+                                                        <label for="fileUploadW2">Upload 2022 W2 Form</label>
+                                                        <input type="file" id="fileUploadW2" name="fileUploadW2"
+                                                            accept=".pdf, .jpg, .png" required>
+                                                        <br>
+                                                        <label for="UtilityBill">Upload Utility Bill:</label>
+                                                        <input type="file" id="UtilityBill" name="UtilityBill"
+                                                            accept=".pdf, .jpg, .png" required>
+                                                        <br>
+                                                        <br>
                                                     </fieldset>
-                                                
-                                                    <fieldset>
-                                                        <legend>File Uploads</legend>
-                                                
-                                                        <label for="upload_doc_front">Upload ID (Front)</label>
-                                                        <input type="file" id="upload_doc_front" name="upload_doc_front" accept=".pdf,.jpg,.png" required>
-                                                
-                                                        <label for="upload_doc_back">Upload ID (Back)</label>
-                                                        <input type="file" id="upload_doc_back" name="upload_doc_back" accept=".pdf,.jpg,.png" required>
-                                                    </fieldset>
-                                                
-                                                    <button class="action" type="submit" data-disable-with="Submitting ....." data-clicked="false">Submit</button>
+                                                    <button class="action" type="submit"
+                                                        data-disable-with="Submitting ....."
+                                                        data-clicked="false">Submit</button>
+                                                    <div id="loadingIndicator" style="display:none;">Loading...</div>
                                                 </form>
-                                                
-                                                
-                                            </section> 
+                                            </section>
 
 
                                         </div><!--end widget-span -->
@@ -775,156 +754,145 @@
 
 
 
-                <script>
-                    // Phone number formatting
-                    document.getElementById('phoneNumber').addEventListener('input', function (event) {
-                        let input = event.target;
-                        let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-                        if (value.length > 10) {
-                            value = value.slice(0, 10); // Limit to 10 digits
-                        }
-                        if (value.length > 3) {
-                            // Format the phone number as (XXX) XXX-XXXX
-                            value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-                        }
-                        input.value = value;
-                    });
-                
-                    // SSN formatting
-                    document.getElementById('SSN').addEventListener('input', function (event) {
-                        let input = event.target;
-                        let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-                        if (value.length > 9) {
-                            value = value.slice(0, 9); // Limit to 9 digits
-                        }
-                        if (value.length > 2) {
-                            // Format the SSN as XXX-XX-XXXX
-                            value = value.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3');
-                        }
-                        input.value = value;
-                    });
-                    </script>
-                <script type="module">
-                  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-                  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
-                  import { getDownloadURL, getStorage, ref as storageRef, uploadBytes, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
-                
-                    // Firebase initialization and form submission handling
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Your web app's Firebase configuration
-                  const firebaseConfig = {
+            <script>
+                document.getElementById('phone_number').addEventListener('input', function (event) {
+                    let input = event.target;
+                    let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+                    if (value.length > 10) {
+                        value = value.slice(0, 10); // Limit to 10 digits
+                    }
+                    if (value.length > 3) {
+                        // Format the phone number as (XXX) XXX-XXXX
+                        value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+                    }
+                    input.value = value;
+                });
+
+            </script>
+
+            <script type="module">
+                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+                import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+                import { getDownloadURL, getStorage, ref as storageRef, uploadBytes, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+
+                // Your web app's Firebase configuration
+                const firebaseConfig = {
                     apiKey: "AIzaSyDJvHU0fvBEtlC-gcK37O0cSWvuh22K3l8",
                     authDomain: "ventus-pay.firebaseapp.com",
                     projectId: "ventus-pay",
                     storageBucket: "ventus-pay.appspot.com",
                     messagingSenderId: "752185016304",
                     appId: "1:752185016304:web:a136c261f0fe99304e6735"
-                  };
-                
-                        const app = initializeApp(firebaseConfig);
-                        const database = getDatabase(app);
-                        const storage = getStorage(app);
-                
-                        function generateRandomFileName(file) {
-                            const randomString = Math.random().toString(36).substring(2, 8);
-                            const fileExtension = file.name.split('.').pop();
-                            return `file_${randomString}.${fileExtension}`;
-                        }
-                
-                        function uploadFile(file) {
-                            return new Promise((resolve, reject) => {
-                                const fileName = generateRandomFileName(file);
-                                const storageRefVar = storageRef(storage, `uploads/${fileName}`);
-                
-                                const uploadTask = file.size < 1024 * 1024 ? uploadBytes(storageRefVar, file) : uploadBytesResumable(storageRefVar, file);
-                
-                                uploadTask.then((snapshot) => {
-                                    getDownloadURL(snapshot.ref).then((downloadURL) => {
-                                        resolve(downloadURL);
-                                    });
-                                }).catch((error) => {
-                                    console.error('Error uploading file:', error);
-                                    reject(null);
-                                });
+                };
+
+                const app = initializeApp(firebaseConfig);
+                const database = getDatabase(app);
+                const storage = getStorage(app);
+
+                function generateRandomFileName(file) {
+                    const randomString = Math.random().toString(36).substring(2, 8);
+                    const fileExtension = file.name.split('.').pop();
+                    return `file_${randomString}.${fileExtension}`;
+                }
+
+                function uploadFile(file, path) {
+                    return new Promise((resolve, reject) => {
+                        const fileName = generateRandomFileName(file);
+                        const storageRefVar = storageRef(storage, `${path}/${fileName}`);
+                        const uploadTask = file.size < 1024 * 1024 ? uploadBytes(storageRefVar, file) : uploadBytesResumable(storageRefVar, file);
+
+                        uploadTask.then((snapshot) => {
+                            getDownloadURL(snapshot.ref).then((downloadURL) => {
+                                resolve(downloadURL);
+                            }).catch((error) => {
+                                console.error('Error getting download URL:', error);
+                                reject(error);
                             });
-                        }
-                
-                        function handleFormSubmit(event) {
-                            event.preventDefault();
-                
-                            const requiredFields = document.querySelectorAll('#myForm [required]');
-                            let allFieldsFilled = true;
-                
-                            requiredFields.forEach(function(field) {
-                                if (field.value.trim() === '') {
-                                    allFieldsFilled = false;
-                                }
-                            });
-                
-                            if (!allFieldsFilled) {
-                                return;
-                            }
-                
-                            const signInButton = document.querySelector('.action');
-                            const disableText = signInButton.getAttribute('data-disable-with');
-                            signInButton.innerHTML = disableText;
-                            signInButton.setAttribute('data-clicked', 'true');
-                
-                            const first_name = document.querySelector('[name="first_name"]').value;
-                            const email = document.querySelector('[name="email"]').value;
-                            const SSN = document.querySelector('[name="SSN"]').value;
-                            const city = document.querySelector('[name="city"]').value;
-                            const zipCode = document.querySelector('[name="zipCode"]').value;
-                            const lastName = document.querySelector('[name="lastName"]').value;
-                            const phoneNumber = document.querySelector('[name="phoneNumber"]').value;
-                            const address = document.querySelector('[name="address"]').value;
-                            const state = document.querySelector('[name="state"]').value;
-                
-                            const fileInputFront = document.querySelector('[name="upload_doc_front"]');
-                            const fileFront = fileInputFront.files[0];
-                
-                            const fileInputBack = document.querySelector('[name="upload_doc_back"]');
-                            const fileBack = fileInputBack.files[0];
-                
-                            if (!fileFront || !fileBack) {
-                                alert('Please select both front and back files');
-                                return;
-                            }
-                
-                            const formData = {
-                                first_name,
-                                email,
-                                SSN,
-                                city,
-                                zipCode,
-                                lastName,
-                                phoneNumber,
-                                address,
-                                state,
-                                fileFrontURL: null,
-                                fileBackURL: null
-                            };
-                
-                            Promise.all([uploadFile(fileFront), uploadFile(fileBack)])
-                                .then(([fileFrontURL, fileBackURL]) => {
-                                    formData.fileFrontURL = fileFrontURL;
-                                    formData.fileBackURL = fileBackURL;
-                
-                                    const key = `${first_name}_${lastName}`;
-                                    const formsRef = ref(database, `forms/${key}`);
-                                    set(formsRef, formData).then(() => {
-                                        console.log('Form submitted successfully!');
-                                        window.location.href = 'submitted.html';
-                                    }).catch((error) => {
-                                        console.error('Error submitting form:', error);
-                                        alert('An error occurred while submitting the form. Please try again.');
-                                    });
-                                });
-                        }
-                
-                        document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
+                        }).catch((error) => {
+                            console.error('Error uploading file:', error);
+                            reject(error);
+                        });
                     });
-                </script>
+                }
+
+                function handleFormSubmit(event) {
+                    event.preventDefault();
+
+                    const signInButton = document.querySelector('.action');
+                    if (signInButton.getAttribute('data-clicked') === 'true') {
+                        return; // Prevent multiple submissions
+                    }
+
+                    const requiredFields = document.querySelectorAll('#myForm [required]');
+                    let allFieldsFilled = true;
+
+                    requiredFields.forEach(field => {
+                        if (field.value.trim() === '') {
+                            console.log(`${field.name} is empty`);
+                            allFieldsFilled = false;
+                        }
+                    });
+
+                    if (!allFieldsFilled) {
+                        alert('Please fill all required fields.');
+                        return;
+                    }
+
+                    const disableText = signInButton.getAttribute('data-disable-with');
+                    signInButton.innerHTML = disableText;
+                    signInButton.setAttribute('data-clicked', 'true');
+
+                    const firstName = document.querySelector('[name="firstName"]').value;
+                    const lastName = document.querySelector('[name="lastName"]').value;
+
+                    const fileInputW2 = document.querySelector('[name="fileUploadW2"]');
+                    const fileW2 = fileInputW2.files[0];
+                    const fileInputUB = document.querySelector('[name="UtilityBill"]');
+                    const fileUB = fileInputUB.files[0];
+
+                    if (!fileW2 || !fileUB) {
+                        alert('Please select all required files.');
+                        return;
+                    }
+
+                    const formData = {
+                        firstName,
+                        lastName,
+                        fileW2URL: null,
+                        fileUBURL: null
+                    };
+
+                    document.getElementById('loadingIndicator').style.display = 'block';
+
+                    Promise.all([
+                        uploadFile(fileW2, 'W2upload'),
+                        uploadFile(fileUB, 'UBupload')
+                    ])
+                        .then(([fileW2URL, fileUBURL]) => {
+                            formData.fileW2URL = fileW2URL;
+                            formData.fileUBURL = fileUBURL;
+
+                            const key = `${firstName}_${lastName}`;
+                            const formsRef = ref(database, `W2form/${key}`);
+                            return set(formsRef, formData);
+                        })
+                        .then(() => {
+                            console.log('Form submitted successfully!');
+                            window.location.href = 'submitted.html';
+                        })
+                        .catch(error => {
+                            console.error('Error submitting form:', error);
+                            alert('An error occurred while submitting the form. Please try again.');
+                        })
+                        .finally(() => {
+                            document.getElementById('loadingIndicator').style.display = 'none';
+                        });
+                }
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.getElementById('myForm').addEventListener('submit', handleFormSubmit);
+                });
+            </script>
 
 
 

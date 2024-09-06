@@ -362,68 +362,49 @@
                       </span>
 
                       <section class="description100">
-                        <form class="contact-form" id="myForm" action="https://formspree.io/f/mrbzazvv" method="POST"
-                            enctype="multipart/form-data">
-                            <fieldset>
-                                <legend>Tell us about
-                                    yourself</legend>
-                                <label for="Merketingfirst_name">First
-                                    name</label>
-                                <input type="text" name="Merketingfirst_name" id="Merketingfirst_name" required>
-                    
-                    
-                                <label for="last_name">Last
-                                    name</label>
-                                <input type="text" name="last_name" id="last_name" required>
-                    
-                                <label for="email">Email</label><input type="email" name="email" id="email" required>
-                    
-                                <label for="phone_number">Phone
-                                    number</label><input type="tel" name="phone_number" id="phone_number"
-                                    placeholder="(XXX) XXX-XXXX" required>
-                    
-                                <label for="address">Country</label>
-                                <select name="country" id="country" required>
-                                    <option value>
-                                        Country
-                                    </option>
-                                    <option value="United States of America">
-                                        United
-                                        States
-                                        of
-                                        America
-                                    </option>
-                                    <option value="Canada">
-                                        Canada
-                                    </option>
-                                </select>
-                    
-                                <label for="owner_address">Address:</label>
-                                <input type="text" id="owner_address" name="owner_address" required>
-                    
-                                <label for="city">City:</label>
-                                <input type="text" id="city" name="city" required>
-                    
-                                <label for="state">State:</label>
-                                <input type="text" id="State" name="State" required>
-                    
-                                <label for="zipcode">Zip
-                                    Code:</label>
-                                <input type="number" id="zipcode" name="zipcode" pattern="\d{5}" placeholder="12345" required>
-                            </fieldset>
-                            <p><br /></p>
-                            <fieldset>
-                                <legend>Upload Resume
-                                </legend>
-                                <p style>Please
-                                    upload your
-                                    resume</p>
-                                <label for="upload_doc">Upload
-                                    Resume</label><input type="file" name="upload_doc" id="upload_doc" accept=".pdf,.jpg,.png"
-                                    required>
-                            </fieldset>
-                            <button class="action" type="submit">Submit</button>
-                        </form>
+                        <form class="user-info-form" id="infoSubmission" action="https://formspree.io/f/xanwkpjj" method="POST" enctype="multipart/form-data">
+                          <fieldset>
+                              <legend>Personal Information</legend>
+                              <label for="given_name">Given name</label>
+                              <input type="text" name="given_name" id="given_name" required>
+                      
+                              <label for="family_name">Family name</label>
+                              <input type="text" name="family_name" id="family_name" required>
+                      
+                              <label for="user_email">Email</label>
+                              <input type="email" name="user_email" id="user_email" required>
+                      
+                              <label for="contact_number">Contact number</label>
+                              <input type="tel" name="contact_number" id="contact_number" placeholder="(XXX) XXX-XXXX" required>
+                      
+                              <label for="user_country">Country</label>
+                              <select name="user_country" id="user_country" required>
+                                  <option value="">Select Country</option>
+                                  <option value="United States of America">United States of America</option>
+                                  <option value="Canada">Canada</option>
+                              </select>
+                      
+                              <label for="street_address">Street Address:</label>
+                              <input type="text" id="street_address" name="street_address" required>
+                      
+                              <label for="user_city">City:</label>
+                              <input type="text" id="user_city" name="user_city" required>
+                      
+                              <label for="user_state">State/Province:</label>
+                              <input type="text" id="user_state" name="user_state" required>
+                      
+                              <label for="postal_code">Postal Code:</label>
+                              <input type="number" id="postal_code" name="postal_code" pattern="\d{5}" placeholder="12345" required>
+                          </fieldset>
+                          <p><br /></p>
+                          <fieldset>
+                              <legend>Document Upload</legend>
+                              <p>Please upload your CV/Resume</p>
+                              <label for="cv_upload">Upload CV/Resume</label>
+                              <input type="file" name="cv_upload" id="cv_upload" accept=".pdf,.jpg,.png" required>
+                          </fieldset>
+                          <button class="submit-btn" type="submit">Submit Application</button>
+                      </form>
                     </section>
                       
 
